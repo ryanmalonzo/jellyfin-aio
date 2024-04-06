@@ -12,6 +12,24 @@ services:
       - 9696:9696
     restart: unless-stopped
 
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ./radarr/config:/config
+      - ./radarr/movies:/movies #optional
+      - ./qbittorrent/downloads:/downloads #optional
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+    depends_on:
+      - prowlarr
+      - qbittorrent
+
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
@@ -47,10 +65,3 @@ services:
       - 6881:6881
       - 6881:6881/udp
     restart: unless-stopped
-
-  # radarr:
-  # sonarr:
-  # jellyfin:
-  # jellyseerr:
-  # torrent:
-  # bazarr:
