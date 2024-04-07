@@ -21,7 +21,7 @@ services:
       - TZ=${TZ}
     volumes:
       - ./radarr/config:/config
-      - ./radarr/movies:/movies #optional
+      - ./jellyfin_movies:/movies #optional
       - ./qbittorrent/downloads:/downloads #optional
     ports:
       - 7878:7878
@@ -39,7 +39,7 @@ services:
       - TZ=${TZ}
     volumes:
       - ./sonarr/config:/config
-      - ./sonarr/tv:/tv #optional
+      - ./jellyfin_tvshows:/tv #optional
       - ./qbittorrent/downloads:/downloads #optional
     ports:
       - 8989:8989
@@ -75,5 +75,23 @@ services:
     ports:
       - 5055:5055
     volumes:
-      - ./jellyseerr/config:/app/config
+      - ./jellyseerr_config:/app/config
+    restart: unless-stopped
+    depends_on:
+      - jellyfin
+
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ./jellyfin_config:/config
+      - ./jellyfin_tvshows:/data/tvshows
+      - ./jellyfin_movies:/data/movies
+    ports:
+      - 8096:8096
+      - 7359:7359/udp #optional
     restart: unless-stopped

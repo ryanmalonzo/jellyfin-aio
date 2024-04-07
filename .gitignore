@@ -1,6 +1,8 @@
+.DS_Store
 .env
 prowlarr/
 qbittorrent/
 sonarr/
 radarr/
-jellyseerr/
+jellyseerr*/
+jellyfin*/
