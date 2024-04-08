@@ -79,6 +79,9 @@ services:
     restart: unless-stopped
     depends_on:
       - jellyfin
+    dns:
+      - 1.1.1.1
+      - 1.0.0.1
 
   jellyfin:
     image: lscr.io/linuxserver/jellyfin:latest
