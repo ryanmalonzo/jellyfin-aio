@@ -21,8 +21,8 @@ services:
       - TZ=${TZ}
     volumes:
       - ./radarr/config:/config
-      - ./jellyfin_movies:/movies #optional
-      - ./qbittorrent/downloads:/downloads #optional
+      - ${MOVIES_DIR}:/movies
+      - ./qbittorrent/downloads:/downloads
     ports:
       - 7878:7878
     restart: unless-stopped
@@ -39,8 +39,8 @@ services:
       - TZ=${TZ}
     volumes:
       - ./sonarr/config:/config
-      - ./jellyfin_tvshows:/tv #optional
-      - ./qbittorrent/downloads:/downloads #optional
+      - ${TV_SHOWS_DIR}:/tv
+      - ./qbittorrent/downloads:/downloads
     ports:
       - 8989:8989
     restart: unless-stopped
@@ -75,7 +75,7 @@ services:
     ports:
       - 5055:5055
     volumes:
-      - ./jellyseerr_config:/app/config
+      - ./jellyseerr/config:/app/config
     restart: unless-stopped
     depends_on:
       - jellyfin
@@ -91,10 +91,10 @@ services:
       - PGID=${PGID}
       - TZ=${TZ}
     volumes:
-      - ./jellyfin_config:/config
-      - ./jellyfin_tvshows:/data/tvshows
-      - ./jellyfin_movies:/data/movies
+      - ./jellyfin/config:/config
+      - ${TV_SHOWS_DIR}:/data/tvshows
+      - ${MOVIES_DIR}:/data/movies
     ports:
       - 8096:8096
-      - 7359:7359/udp #optional
+      - 7359:7359/udp
     restart: unless-stopped
