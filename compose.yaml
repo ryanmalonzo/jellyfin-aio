@@ -9,7 +9,7 @@ services:
       - PGID=${PGID}
       - TZ=${TZ}
       - URL=${DOMAIN}
-      - SUBDOMAINS=wildcard
+      - SUBDOMAINS=${SUBDOMAINS-wildcard}
       - VALIDATION=dns
       - CERTPROVIDER=${CERTPROVIDER}
       - DNSPLUGIN=${DNSPLUGIN}
