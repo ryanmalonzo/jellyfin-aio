@@ -1,4 +1,25 @@
 services:
+  swag:
+    image: lscr.io/linuxserver/swag
+    container_name: swag
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - URL=${DOMAIN}
+      - SUBDOMAINS=wildcard
+      - VALIDATION=dns
+      - CERTPROVIDER=${CERTPROVIDER}
+      - DNSPLUGIN=${DNSPLUGIN}
+      - EMAIL=${EMAIL}
+    volumes:
+      - ./swag/config:/config
+    ports:
+      - 443:443
+    restart: unless-stopped
+
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
@@ -40,7 +61,7 @@ services:
     volumes:
       - ./sonarr/config:/config
       - ${TV_SHOWS_DIR}:/tv
-      - ./qbittorrent/downloads:/downloads
+      - ${DOWNLOADS_DIR}:/downloads
     ports:
       - 8989:8989
     restart: unless-stopped
@@ -59,7 +80,7 @@ services:
       - TORRENTING_PORT=6881
     volumes:
       - ./qbittorrent/config:/config
-      - ./qbittorrent/downloads:/downloads
+      - ${DOWNLOADS_DIR}:/downloads
     ports:
       - 8080:8080
       - 6881:6881
